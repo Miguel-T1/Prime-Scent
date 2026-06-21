@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Carrinho | Prime Scent</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a href="./index.html" class="logo">Prime Scent</a>
+
+      <ul class="nav-links">
+        <li class="search-menu-item">
+          <button id="header-search-toggle" class="search-icon-button" aria-label="Abrir busca">
+            <span class="search-icon">⌕</span>
+          </button>
+        </li>
+
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./busca.html?cat=masculino">Masculinos</a></li>
+        <li><a href="./busca.html?cat=feminino">Femininos</a></li>
+        <li><a href="./carrinho.html">Carrinho</a></li>
+      </ul>
+    </nav>
+
+    <form id="header-search-form" class="header-search-bar">
+      <input
+        type="text"
+        id="header-search-input"
+        placeholder="Buscar por Dior, Sauvage, floral, masculino..."
+      />
+      <button type="submit">
+        <span>Buscar</span>
+      </button>
+    </form>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="hero-subtitle">Carrinho Prime Scent</p>
+      <h1>Sua seleção</h1>
+      <p>
+        Revise seus perfumes, aplique o cupom e confira o total da compra.
+      </p>
+    </section>
+
+    <section class="cart-section">
+      <div id="cart-container">
+        <p class="loading-message">Carregando carrinho...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Prime Scent. Projeto acadêmico de Programação Web.</p>
+  </footer>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/storage.js"></script>
+  <script src="./js/headerSearch.js"></script>
+  <script src="./js/carrinho.js"></script>
+</body>
+</html>

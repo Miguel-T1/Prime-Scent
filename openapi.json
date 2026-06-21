@@ -1,0 +1,887 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API Prime Scent",
+    "version": "1.0.0",
+    "description": "API REST do e-commerce acadêmico Prime Scent. Permite verificar o servidor, pesquisar perfumes, consultar um produto, cadastrar e excluir produtos com Basic Auth e calcular o carrinho."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local de desenvolvimento"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Sistema",
+      "description": "Verificação do funcionamento da API"
+    },
+    {
+      "name": "Produtos",
+      "description": "Consulta e gerenciamento de produtos"
+    },
+    {
+      "name": "Carrinho",
+      "description": "Validação e cálculo do carrinho"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Sistema"
+        ],
+        "summary": "Verifica se a API está funcionando",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "API funcionando corretamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Prime Scent funcionando"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Pesquisa e lista produtos",
+        "description": "Pesquisa por texto, filtra pela categoria e aplica paginação. Quando os parâmetros não são enviados, usa page 1 e limit 8.",
+        "operationId": "searchProducts",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "description": "Texto pesquisado em nome, marca, categoria, gênero, volume, família olfativa e descrição.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Sauvage"
+          },
+          {
+            "name": "cat",
+            "in": "query",
+            "required": false,
+            "description": "Categoria exata usada no filtro.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "masculino",
+                "feminino"
+              ]
+            },
+            "example": "masculino"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Número da página.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "example": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Quantidade de produtos por página.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 8
+            },
+            "example": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produtos retornados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parâmetros de paginação inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar produtos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Cadastra um produto",
+        "description": "Cadastra um novo perfume. Exige usuário e senha por Basic Auth.",
+        "operationId": "createProduct",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCreate"
+              },
+              "example": {
+                "name": "Novo Perfume",
+                "brand": "Marca Exemplo",
+                "price": 499.9,
+                "category": "masculino",
+                "gender": "masculino",
+                "volume": "100ml",
+                "fragrance_family": "amadeirado aromático",
+                "weight": 0.5,
+                "description": "Perfume de exemplo para cadastro.",
+                "image": "./assets/img/products/novo-perfume.webp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produto cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCreateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Campos obrigatórios ausentes, preço inválido ou peso inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Autenticação ausente ou inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao cadastrar produto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Busca um produto pelo ID",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProductId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao buscar produto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Exclui um produto pelo ID",
+        "description": "Exclui um perfume cadastrado. Exige usuário e senha por Basic Auth.",
+        "operationId": "deleteProductById",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProductId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto excluído com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Autenticação ausente ou inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao excluir produto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart": {
+      "post": {
+        "tags": [
+          "Carrinho"
+        ],
+        "summary": "Calcula o carrinho",
+        "description": "Valida os produtos no banco, consolida itens repetidos e calcula subtotal, frete, desconto e total. O cupom CAULFIELD10 concede 10% de desconto sobre o subtotal.",
+        "operationId": "calculateCart",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartRequest"
+              },
+              "examples": {
+                "semCupom": {
+                  "summary": "Carrinho sem cupom",
+                  "value": {
+                    "items": [
+                      {
+                        "productId": 17,
+                        "qty": 2
+                      }
+                    ]
+                  }
+                },
+                "comCupom": {
+                  "summary": "Carrinho com cupom",
+                  "value": {
+                    "items": [
+                      {
+                        "productId": 17,
+                        "qty": 2
+                      }
+                    ],
+                    "cupomCode": "CAULFIELD10"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Carrinho calculado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Carrinho vazio, ID inválido ou quantidade inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Um ou mais produtos não foram encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartMissingProductsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao calcular carrinho",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Credenciais definidas nas variáveis BASIC_AUTH_USER e BASIC_AUTH_PASS do arquivo .env."
+      }
+    },
+    "parameters": {
+      "ProductId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "ID numérico do produto.",
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "example": 17
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Erro na requisição."
+          }
+        }
+      },
+      "ProductSummary": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "brand",
+          "price",
+          "category",
+          "gender",
+          "volume",
+          "fragrance_family",
+          "weight",
+          "description",
+          "image",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 17
+          },
+          "name": {
+            "type": "string",
+            "example": "Sauvage Eau de Toilette"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Dior"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "example": 699.9
+          },
+          "category": {
+            "type": "string",
+            "example": "masculino"
+          },
+          "gender": {
+            "type": "string",
+            "example": "masculino"
+          },
+          "volume": {
+            "type": "string",
+            "example": "100ml"
+          },
+          "fragrance_family": {
+            "type": "string",
+            "example": "aromático fougère"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double",
+            "example": 0.5
+          },
+          "description": {
+            "type": "string",
+            "example": "Fragrância fresca e marcante."
+          },
+          "image": {
+            "type": "string",
+            "example": "./assets/img/products/sauvage-edt.webp"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-08T18:30:00.000Z"
+          }
+        }
+      },
+      "ProductDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ProductSummary"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "top_notes": {
+                "type": "string",
+                "nullable": true,
+                "example": "Bergamota e pimenta"
+              },
+              "heart_notes": {
+                "type": "string",
+                "nullable": true,
+                "example": "Lavanda e gerânio"
+              },
+              "base_notes": {
+                "type": "string",
+                "nullable": true,
+                "example": "Ambroxan, cedro e ládano"
+              },
+              "main_accords": {
+                "type": "string",
+                "nullable": true,
+                "description": "Texto JSON armazenado no banco com nome, tom e intensidade dos acordes.",
+                "example": "[{\"name\":\"Aromático\",\"tone\":\"aromatic\",\"intensity\":95}]"
+              }
+            }
+          }
+        ]
+      },
+      "ProductCreate": {
+        "type": "object",
+        "required": [
+          "name",
+          "brand",
+          "price",
+          "category",
+          "gender",
+          "volume",
+          "fragrance_family",
+          "weight",
+          "description",
+          "image"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "exclusiveMinimum": true,
+            "minimum": 0
+          },
+          "category": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "volume": {
+            "type": "string"
+          },
+          "fragrance_family": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double",
+            "exclusiveMinimum": true,
+            "minimum": 0
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "page",
+          "limit",
+          "totalOnPage",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 8
+          },
+          "totalOnPage": {
+            "type": "integer",
+            "example": 4
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSummary"
+            }
+          }
+        }
+      },
+      "ProductResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductDetail"
+          }
+        }
+      },
+      "ProductCreateResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Produto cadastrado com sucesso."
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductDetail"
+          }
+        }
+      },
+      "ProductDeleteResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Produto deletado com sucesso."
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductDetail"
+          }
+        }
+      },
+      "CartRequestItem": {
+        "type": "object",
+        "required": [
+          "productId",
+          "qty"
+        ],
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 17
+          },
+          "qty": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 2
+          }
+        }
+      },
+      "CartRequest": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/CartRequestItem"
+            }
+          },
+          "cupomCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "CAULFIELD10"
+          }
+        }
+      },
+      "CartItem": {
+        "type": "object",
+        "required": [
+          "productId",
+          "name",
+          "price",
+          "qty",
+          "image",
+          "subtotal"
+        ],
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "example": 17
+          },
+          "name": {
+            "type": "string",
+            "example": "Sauvage Eau de Toilette"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "example": 699.9
+          },
+          "qty": {
+            "type": "integer",
+            "example": 2
+          },
+          "image": {
+            "type": "string",
+            "example": "./assets/img/products/sauvage-edt.webp"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double",
+            "example": 1399.8
+          }
+        }
+      },
+      "CartResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "items",
+          "subtotal",
+          "freight",
+          "discount",
+          "total"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "double",
+            "example": 1399.8
+          },
+          "freight": {
+            "type": "number",
+            "format": "double",
+            "example": 0
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "example": 139.98
+          },
+          "total": {
+            "type": "number",
+            "format": "double",
+            "example": 1259.82
+          }
+        }
+      },
+      "CartMissingProductsResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "missingProductIds"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Um ou mais produtos do carrinho não foram encontrados."
+          },
+          "missingProductIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              9999
+            ]
+          }
+        }
+      }
+    }
+  }
+}

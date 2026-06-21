@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Busca | Prime Scent</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a href="./index.html" class="logo">Prime Scent</a>
+
+      <ul class="nav-links">
+        <li class="search-menu-item">
+          <button id="header-search-toggle" class="search-icon-button" aria-label="Abrir busca">
+            <span class="search-icon">⌕</span>
+          </button>
+        </li>
+
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./busca.html?cat=masculino">Masculinos</a></li>
+        <li><a href="./busca.html?cat=feminino">Femininos</a></li>
+        <li><a href="./carrinho.html">Carrinho</a></li>
+      </ul>
+    </nav>
+
+    <form id="header-search-form" class="header-search-bar">
+      <input
+        type="text"
+        id="header-search-input"
+        placeholder="Buscar por Dior, Sauvage, floral, masculino..."
+      />
+      <button type="submit">
+        <span>Buscar</span>
+      </button>
+    </form>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="hero-subtitle">Catálogo Prime Scent</p>
+      <h1>Encontre sua fragrância</h1>
+      <p>
+        Pesquise por marca, nome, gênero, volume ou família olfativa.
+      </p>
+    </section>
+
+    <section class="catalog-section">
+      <div class="catalog-top">
+        <div>
+          <p class="section-subtitle">Resultados</p>
+          <h2 id="results-title">Todos os perfumes</h2>
+        </div>
+
+        <form id="catalog-filter-form" class="catalog-filter">
+          <input
+            type="text"
+            id="catalog-search-input"
+            placeholder="Buscar perfume..."
+          />
+
+          <select id="catalog-category-select">
+            <option value="">Todas as categorias</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+
+          <button type="submit">
+            <span>Filtrar</span>
+          </button>
+        </form>
+      </div>
+
+      <div id="products-list" class="products-grid">
+        <p class="loading-message">Carregando perfumes...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Prime Scent. Projeto acadêmico de Programação Web.</p>
+  </footer>
+
+  <script src="./js/api.js"></script>
+  <script src="./js/headerSearch.js"></script>
+  <script src="./js/busca.js"></script>
+</body>
+</html>
