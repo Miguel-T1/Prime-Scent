@@ -1,6 +1,6 @@
 const cartContainer = document.getElementById("cart-container");
 
-let currentCoupon = "CAULFIELD10";
+let currentCoupon = "";
 
 function renderEmptyCart() {
   cartContainer.innerHTML = `
