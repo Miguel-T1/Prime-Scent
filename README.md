@@ -303,17 +303,6 @@ Home → Busca → Detalhes do produto → Carrinho
 8. A rota `/cart` consulta os dados atuais no banco.
 9. O back-end calcula subtotal, frete, desconto e total.
 
-## Uso de inteligência artificial
-
-Ferramentas de inteligência artificial foram utilizadas como apoio durante o desenvolvimento, principalmente para:
-
-* revisão e organização de código;
-* identificação de erros;
-* melhoria das validações;
-* criação da documentação;
-* apoio na interface e experiência do usuário.
-
-Todas as alterações foram revisadas, testadas e estudadas pelo autor do projeto.
 
 ## Autor
 
