@@ -1,8 +1,8 @@
 # Prime Scent
 
-E-commerce acadêmico de perfumes desenvolvido para a disciplina de Programação Web.
+Meu E-commerce acadêmico de perfumes desenvolvido para a disciplina de Programação Web.
 
-O sistema permite pesquisar perfumes, filtrar produtos, visualizar detalhes, adicionar itens ao carrinho, aplicar cupom de desconto e calcular o valor final da compra utilizando dados atualizados do banco de dados.
+O sistema deixa pesquisar perfumes, filtrar produtos, visualizar detalhes, adicionar itens ao carrinho, aplicar cupom de desconto e calcular o valor final da compra utilizando dados atualizados do banco de dados.
 
 ## Funcionalidades
 
@@ -42,7 +42,7 @@ O sistema permite pesquisar perfumes, filtrar produtos, visualizar detalhes, adi
 
 ## Estrutura do projeto
 
-```
+
 Prime-Scent/
 ├── database/
 │   ├── db.js
@@ -63,7 +63,7 @@ Prime-Scent/
 ├── openapi.json
 ├── package.json
 └── README.md
-```
+
 
 ## Pré-requisitos
 
@@ -82,9 +82,9 @@ Para executar o projeto, é necessário ter instalado:
 
 Abra o terminal na pasta raiz do projeto e execute:
 
-```
+
 npm install
-```
+
 
 ### 2. Configurar as variáveis de ambiente
 
@@ -92,7 +92,7 @@ Crie uma cópia do arquivo `.env.example` e renomeie a cópia para `.env`.
 
 Exemplo:
 
-```
+
 PORT=3000
 
 DB_HOST=localhost
@@ -103,7 +103,7 @@ DB_NAME=prime_scent
 
 BASIC_AUTH_USER=admin
 BASIC_AUTH_PASS=sua_senha_de_autenticacao
-```
+
 
 O arquivo `.env` contém informações privadas e não deve ser enviado ao GitHub.
 
@@ -131,22 +131,22 @@ Também é possível abrir o arquivo `schema.sql` no editor SQL do Workbench e e
 
 Na pasta raiz do projeto, execute:
 
-```
+
 npm start
-```
+
 
 O terminal deverá informar:
 
-```
+
 Servidor rodando na porta 3000
 Swagger disponível em http://localhost:3000/api-docs/
-```
+
 
 A API ficará disponível em:
 
-```
+
 http://localhost:3000
-```
+
 
 ## Executando o front-end
 
@@ -165,9 +165,9 @@ O servidor da API deve permanecer ligado enquanto o front-end estiver sendo util
 
 Com o servidor iniciado, abra:
 
-```
+
 http://localhost:3000/api-docs/
-```
+
 
 O Swagger permite visualizar e testar as rotas da API diretamente pelo navegador.
 
@@ -202,9 +202,9 @@ A rota de pesquisa aceita os seguintes parâmetros:
 
 Exemplo:
 
-```
+
 /search?query=Dior&cat=masculino&page=1&limit=8
-```
+
 
 Quando não são informados, os valores padrão são:
 
@@ -219,9 +219,9 @@ Os itens do carrinho são armazenados no navegador utilizando LocalStorage.
 
 A chave utilizada é:
 
-```
+
 primeScentCart
-```
+
 
 O LocalStorage guarda somente:
 
@@ -243,9 +243,8 @@ O back-end consulta novamente o banco de dados, garantindo que nomes, imagens e 
 
 O cupom disponível é:
 
-```
 CAULFIELD10
-```
+
 
 O cupom concede 10% de desconto sobre o subtotal dos produtos.
 

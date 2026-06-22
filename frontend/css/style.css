@@ -619,12 +619,7 @@ body {
 }
 
 .product-image-wrapper::before {
-  content: "";
-  position: absolute;
-  width: 95px;
-  height: 95px;
-  border: 1px solid rgba(201, 164, 92, 0.34);
-  transform: rotate(45deg);
+  display: none;
 }
 
 .product-image {
@@ -867,8 +862,7 @@ body {
   display: grid;
   place-items: center;
   padding: 42px;
-  background:
-    linear-gradient(145deg, #ffffff, rgba(248, 245, 239, 0.96));
+  background: #ffffff;
   border: 1px solid rgba(201, 164, 92, 0.38);
   clip-path: polygon(
     0 var(--sharp-cut),
@@ -883,14 +877,7 @@ body {
 }
 
 .product-detail-image-area::before {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border: 1px solid rgba(201, 164, 92, 0.2);
-  background:
-    linear-gradient(135deg, rgba(201, 164, 92, 0.035), transparent);
-  transform: rotate(45deg);
+  display: none;
 }
 
 .product-detail-image-area::after {
@@ -915,7 +902,7 @@ body {
   margin: 0 auto;
   object-fit: contain;
   object-position: center;
-  filter: drop-shadow(0 26px 24px rgba(0, 0, 0, 0.13));
+  filter: none;
   transform: none;
 }
 
@@ -3281,3 +3268,483 @@ body {
   }
 }
 
+
+/* =========================================================
+   REFINAMENTO EDITORIAL DA HOME
+   Molduras brancas intencionais para imagens com fundo branco
+========================================================= */
+
+/* Galeria Polaroid premium do hero */
+.home-hero-showcase {
+  min-height: 580px;
+}
+
+.home-hero-showcase::before {
+  width: 500px;
+  height: 500px;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.78) 54%, rgba(201, 164, 92, 0.08) 72%, transparent 73%);
+  box-shadow:
+    inset 0 0 0 18px rgba(255, 255, 255, 0.28),
+    0 42px 78px rgba(86, 59, 17, 0.1);
+}
+
+.home-hero-showcase::after {
+  width: 360px;
+  height: 360px;
+  border-color: rgba(201, 164, 92, 0.22);
+}
+
+.hero-products-stage {
+  width: min(100%, 620px);
+  min-height: 560px;
+}
+
+.hero-product-card {
+  justify-content: space-between;
+  padding: 18px 18px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(201, 164, 92, 0.32);
+  box-shadow: 0 24px 48px rgba(30, 21, 8, 0.13);
+  overflow: hidden;
+  filter: none;
+}
+
+.hero-product-card::before {
+  content: "PRIME SCENT";
+  position: absolute;
+  top: 10px;
+  left: 13px;
+  z-index: 3;
+  color: rgba(13, 13, 13, 0.5);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.hero-product-card:hover {
+  filter: none;
+  box-shadow: 0 30px 58px rgba(30, 21, 8, 0.18);
+}
+
+.hero-product-card img {
+  width: 100%;
+  height: calc(100% - 52px);
+  padding-top: 12px;
+  background: #ffffff;
+  object-fit: contain;
+  filter: none;
+}
+
+.hero-product-card strong {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 0;
+  padding: 10px 5px 2px;
+  background: #ffffff;
+  border: none;
+  border-top: 1px solid rgba(201, 164, 92, 0.26);
+  backdrop-filter: none;
+  line-height: 1.35;
+}
+
+.hero-product-card:nth-child(1) {
+  left: 50%;
+  top: 62px;
+  width: 258px;
+  height: 390px;
+  transform: translateX(-50%);
+}
+
+.hero-product-card:nth-child(2) {
+  left: 1%;
+  top: 154px;
+  width: 186px;
+  height: 300px;
+  transform: rotate(-7deg);
+}
+
+.hero-product-card:nth-child(3) {
+  right: 0;
+  top: 142px;
+  width: 190px;
+  height: 304px;
+  transform: rotate(7deg);
+}
+
+.hero-product-card:nth-child(1):hover {
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.hero-product-card:nth-child(2):hover {
+  transform: rotate(-7deg) translateY(-10px);
+}
+
+.hero-product-card:nth-child(3):hover {
+  transform: rotate(7deg) translateY(-10px);
+}
+
+/* Selo único, mais discreto e editorial */
+.hero-showcase-label {
+  right: 10px;
+  bottom: 42px;
+  width: 148px;
+  height: auto;
+  min-height: 76px;
+  padding: 15px 18px;
+  border: 1px solid rgba(229, 210, 163, 0.55);
+  transform: rotate(3deg);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  box-shadow: 0 18px 34px rgba(13, 13, 13, 0.18);
+}
+
+.hero-showcase-label span {
+  font-size: 0.52rem;
+  letter-spacing: 2px;
+}
+
+.hero-showcase-label strong {
+  margin-top: 6px;
+  font-size: 1.02rem;
+}
+
+/* Pôster editorial da seção de conceito */
+.brand-story-visual {
+  min-height: 500px;
+  padding: 72px 66px 86px;
+  background: #ffffff;
+  border: 1px solid rgba(201, 164, 92, 0.42);
+  clip-path: none;
+  box-shadow: 0 28px 60px rgba(31, 22, 9, 0.1);
+  filter: none;
+}
+
+.brand-story-visual::before {
+  content: "01";
+  top: 24px;
+  left: 28px;
+  width: auto;
+  height: auto;
+  border: none;
+  color: rgba(201, 164, 92, 0.72);
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transform: none;
+}
+
+.brand-story-visual::after {
+  content: "PRIME SCENT  •  EDITORIAL SELECTION";
+  top: 50%;
+  right: -92px;
+  width: auto;
+  height: auto;
+  border: none;
+  color: rgba(13, 13, 13, 0.38);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  white-space: nowrap;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.brand-story-visual img {
+  width: min(100%, 390px);
+  height: 330px;
+  padding: 0 18px;
+  background: #ffffff;
+  object-fit: contain;
+  filter: none;
+}
+
+.brand-story-caption {
+  left: 28px;
+  bottom: 26px;
+  padding: 12px 17px;
+  border-left: 3px solid var(--gold);
+  box-shadow: 0 14px 26px rgba(13, 13, 13, 0.14);
+}
+
+/* Cards do catálogo: o fundo branco vira parte intencional do layout */
+.product-image-wrapper {
+  background: #ffffff;
+  border-color: rgba(201, 164, 92, 0.22);
+}
+
+.product-image {
+  padding: 10px;
+  background: #ffffff;
+  filter: none;
+}
+
+@media (max-width: 1120px) {
+  .home-hero-showcase::before {
+    width: 430px;
+    height: 430px;
+  }
+
+  .hero-product-card:nth-child(1) {
+    width: 232px;
+    height: 360px;
+  }
+
+  .hero-product-card:nth-child(2),
+  .hero-product-card:nth-child(3) {
+    width: 160px;
+    height: 270px;
+  }
+
+  .hero-showcase-label {
+    right: 0;
+    bottom: 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-hero-showcase {
+    min-height: 540px;
+  }
+
+  .hero-products-stage {
+    min-height: 520px;
+  }
+
+  .brand-story-visual {
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero-showcase {
+    min-height: 445px;
+  }
+
+  .home-hero-showcase::before {
+    width: 330px;
+    height: 330px;
+  }
+
+  .home-hero-showcase::after {
+    width: 245px;
+    height: 245px;
+  }
+
+  .hero-products-stage {
+    min-height: 430px;
+  }
+
+  .hero-product-card {
+    padding: 12px 12px 10px;
+  }
+
+  .hero-product-card::before {
+    top: 7px;
+    left: 9px;
+    font-size: 0.38rem;
+  }
+
+  .hero-product-card:nth-child(1) {
+    top: 48px;
+    width: 180px;
+    height: 292px;
+  }
+
+  .hero-product-card:nth-child(2) {
+    left: -2%;
+    top: 150px;
+    width: 108px;
+    height: 188px;
+  }
+
+  .hero-product-card:nth-child(3) {
+    right: -2%;
+    top: 138px;
+    width: 112px;
+    height: 192px;
+  }
+
+  .hero-product-card strong {
+    display: none;
+  }
+
+  .hero-product-card img {
+    height: 100%;
+    padding-top: 8px;
+  }
+
+  .hero-showcase-label {
+    right: 0;
+    bottom: 24px;
+    width: 112px;
+    min-height: 60px;
+    padding: 11px 12px;
+  }
+
+  .hero-showcase-label strong {
+    font-size: 0.78rem;
+  }
+
+  .brand-story-visual {
+    min-height: 390px;
+    padding: 58px 38px 76px;
+  }
+
+  .brand-story-visual::after {
+    right: -105px;
+    font-size: 0.42rem;
+  }
+
+  .brand-story-visual img {
+    height: 255px;
+    padding: 0;
+  }
+
+  .brand-story-caption {
+    left: 18px;
+    bottom: 18px;
+    max-width: calc(100% - 36px);
+    font-size: 0.54rem;
+  }
+}
+
+/* =========================================================
+   LEGENDA EDITORIAL ABAIXO DA GALERIA DO HERO
+   Substitui o antigo selo "Curadoria Premium"
+========================================================= */
+
+.home-hero-showcase {
+  min-height: 650px;
+  padding-bottom: 94px;
+}
+
+.hero-products-stage {
+  min-height: 548px;
+}
+
+.hero-showcase-label {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  right: auto;
+  bottom: 24px;
+  width: min(88%, 540px);
+  height: auto;
+  min-height: 0;
+  padding: 22px 32px 0;
+  display: block;
+  background: transparent;
+  color: var(--black);
+  text-align: center;
+  transform: translateX(-50%);
+  clip-path: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.hero-showcase-label::before {
+  content: "";
+  display: block;
+  width: 76px;
+  height: 1px;
+  margin: 0 auto 14px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 164, 92, 0.95),
+    transparent
+  );
+}
+
+.hero-showcase-label::after {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  margin: 13px auto 0;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.78;
+}
+
+.hero-showcase-label > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.hero-showcase-label span {
+  display: block;
+  color: var(--gold);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 3.2px;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.hero-showcase-label strong {
+  display: block;
+  max-width: 520px;
+  margin: 0;
+  color: var(--black);
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.98rem, 1.6vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.45;
+}
+
+/* Caso o bloco tenha sido duplicado acidentalmente no HTML,
+   mantém apenas o primeiro visível. */
+.hero-showcase-label ~ .hero-showcase-label {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .home-hero-showcase {
+    min-height: 610px;
+    padding-bottom: 88px;
+  }
+
+  .hero-showcase-label {
+    bottom: 20px;
+    width: min(92%, 500px);
+    padding-inline: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero-showcase {
+    min-height: 535px;
+    padding-bottom: 82px;
+  }
+
+  .hero-products-stage {
+    min-height: 420px;
+  }
+
+  .hero-showcase-label {
+    bottom: 15px;
+    width: 94%;
+    padding: 16px 12px 0;
+  }
+
+  .hero-showcase-label::before {
+    width: 58px;
+    margin-bottom: 11px;
+  }
+
+  .hero-showcase-label span {
+    font-size: 0.48rem;
+    letter-spacing: 2.4px;
+  }
+
+  .hero-showcase-label strong {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+}
